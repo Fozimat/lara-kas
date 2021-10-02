@@ -1,14 +1,14 @@
 <div class="menu">
     <ul class="list">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="active">
-            <a href="#">
+        <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
+            <a href="{{ route('dashboard') }}">
                 <i class="material-icons">home</i>
                 <span>Dashboard</span>
             </a>
         </li>
-        <li>
-            <a href="#">
+        <li class="{{ request()->is('pemasukan*') ? 'active' : '' }}">
+            <a href="{{ route('pemasukan.index') }}">
                 <i class="material-icons">text_fields</i>
                 <span>Kas Masuk</span>
             </a>
