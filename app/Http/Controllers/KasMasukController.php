@@ -18,7 +18,7 @@ class KasMasukController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Cash::query();
+            $data = Cash::where('type_id', 1)->get();
             return DataTables::of($data)
                 ->addColumn('action', function ($action) {
                     return '

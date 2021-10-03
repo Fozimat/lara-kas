@@ -27,7 +27,6 @@ class KasMasukRequest extends FormRequest
             'description' => 'required|min:3',
             'date' => 'required|date',
             'total' => 'required|integer',
-            'type_id' => 'required|integer'
         ];
     }
 }

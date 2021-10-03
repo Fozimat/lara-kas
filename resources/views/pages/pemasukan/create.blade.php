@@ -16,6 +16,7 @@
             </div>
             <form action="{{ route('pemasukan.store') }}" method="POST">
                 @csrf
+                <input type="hidden" name="type_id" value="1">
                 <div class="body">
                     <div class="row clearfix">
                         <div class="col-sm-12">
@@ -33,28 +34,7 @@
                             </div>
                         </div>
                     </div>
-
                     <div class="row clearfix">
-                        <div class="col-sm-4">
-                            <div class="form-group">
-                                <label>Jenis</label>
-                                <div class="form-line @error('type_id') focused error @enderror">
-                                    <select class="form-control show-tick" name="type_id">
-                                        <option value="">--Pilih Jenis--</option>
-                                        @foreach ($types as $type)
-                                        <option value="{{ $type->id }}"
-                                            {{ old('type_id') == $type->id ? 'selected' : '' }}>
-                                            {{ ucwords($type->type) }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                                @error('type_id')
-                                <div class="text-danger">
-                                    {{ $message }}
-                                </div>
-                                @enderror
-                            </div>
-                        </div>
                         <div class="col-sm-4">
                             <label>Tanggal</label>
                             <div class="form-group">

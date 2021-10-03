@@ -9,4 +9,9 @@ class Type extends Model
 {
     use HasFactory;
     protected $guarded = [];
+
+    public function cash()
+    {
+        return $this->hasMany(Cash::class, 'type_id');
+    }
 }

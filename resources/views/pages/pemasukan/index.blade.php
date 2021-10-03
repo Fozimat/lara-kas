@@ -27,12 +27,17 @@
                                 <th>Deskripsi</th>
                                 <th>Tanggal</th>
                                 <th>Total</th>
-                                <th>Jenis</th>
                                 <th>Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th colspan="3" style="text-align:right">Total:</th>
+                                <th></th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -42,19 +47,56 @@
 @endsection
 @push('after-script')
 <script>
-    $(() => {
+    $(document).ready(function() {
+        
+        var numberRenderer = $.fn.dataTable.render.number( ',', '.', 2  ).display;
+
            $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
             ajax: {
                 url: '{!! url()->current() !!}'
             },
+            "footerCallback": function ( row, data, start, end, display ) {
+                var api = this.api(), data;
+                // Remove the formatting to get integer data for summation
+                var intVal = function ( i ) {
+                    return typeof i === 'string' ?
+                        i.replace(/[\$,]/g, '')*1 :
+                        typeof i === 'number' ?
+                            i : 0;
+                };
+    
+                // Total over all pages
+                total = api
+                    .column( 3 )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+    
+                // Total over this page
+                pageTotal = api
+                    .column( 3, { page: 'current'} )
+                    .data()
+                    .reduce( function (a, b) {
+                        return intVal(a) + intVal(b);
+                    }, 0 );
+    
+                // Update footer
+                $( api.column( 3 ).footer() ).html(
+                    'Rp.'+ numberRenderer(pageTotal) +' ( Rp.'+ numberRenderer(total) +' total)'
+                );
+            },
             columns: [
                 { data: 'DT_RowIndex', name: 'id', width: '5%' },
-                { data: 'description', name: 'description'},
+                { data: 'description', name: 'description', width: '40%'},
                 { data: 'date', name: 'date' },
-                { data: 'total', name: 'total' },
-                { data: 'type_id', name: 'type_id' },
+                { data: 'total', name: 'total' ,
+                    render: function ( data, type, row ) {
+                        return 'Rp.'+ numberRenderer(data);
+                    }
+                },
                 { 
                     data: 'action',
                     name: 'action',
@@ -62,7 +104,7 @@
                     searcable: false,
                     width: '15%'
                  }
-            ]
+            ],
            });
        });
 </script>
