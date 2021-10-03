@@ -4,7 +4,13 @@
 <div class="block-header">
     <h2>DASHBOARD</h2>
 </div>
-
+@push('after-style')
+<style>
+    .number {
+        font-size: 20px !important;
+    }
+</style>
+@endpush
 <!-- Widgets -->
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -13,8 +19,8 @@
                 <i class="material-icons">playlist_add_check</i>
             </div>
             <div class="content">
-                <div class="text">NEW TASKS</div>
-                <div class="number">15
+                <div class="text">KAS MASUK</div>
+                <div class="number">Rp.{{ number_format($kas_masuk,2,',','.') }}
                 </div>
             </div>
         </div>
@@ -25,8 +31,8 @@
                 <i class="material-icons">help</i>
             </div>
             <div class="content">
-                <div class="text">NEW TICKETS</div>
-                <div class="number">20
+                <div class="text">KAS KELUAR</div>
+                <div class="number">Rp.{{ number_format($kas_keluar,2,',','.') }}
                 </div>
             </div>
         </div>
@@ -37,8 +43,8 @@
                 <i class="material-icons">forum</i>
             </div>
             <div class="content">
-                <div class="text">NEW COMMENTS</div>
-                <div class="number">26
+                <div class="text">KAS TERSISA</div>
+                <div class="number">Rp.{{ number_format($kas,2,',','.') }}
                 </div>
             </div>
         </div>
@@ -49,8 +55,8 @@
                 <i class="material-icons">person_add</i>
             </div>
             <div class="content">
-                <div class="text">NEW VISITORS</div>
-                <div class="number">24
+                <div class="text">DATA KAS</div>
+                <div class="number">{{ $total_data }} Data
                 </div>
             </div>
         </div>
