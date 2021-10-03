@@ -23,7 +23,7 @@
                     <table class="table table-hover" id="dataTable">
                         <thead>
                             <tr>
-                                <th>#</th>
+                                <th>No</th>
                                 <th>Deskripsi</th>
                                 <th>Tanggal</th>
                                 <th>Total</th>
@@ -48,11 +48,46 @@
 @push('after-script')
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
 <script src="https://cdn.datatables.net/plug-ins/1.11.3/sorting/datetime-moment.js"></script>
+
+<script src="{{ asset('assets/plugins/jquery-datatable/extensions/export/buttons.html5.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-datatable/extensions/export/buttons.print.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-datatable/extensions/export/dataTables.buttons.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-datatable/extensions/export/jszip.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-datatable/extensions/export/pdfmake.min.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-datatable/extensions/export/vfs_fonts.js') }}"></script>
+
 <script>
     $(document).ready(function() {
         $.fn.dataTable.moment('D MMMM Y');
         var numberRenderer = $.fn.dataTable.render.number( '.', ',', 2  ).display;
            $('#dataTable').DataTable({
+            dom: 'Bfrtip',
+            buttons: [
+                {
+                    extend: 'copyHtml5',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3 ]
+                    }
+                },
+                {
+                    extend: 'excelHtml5',
+                    exportOptions: {
+                        columns: [ 0, 1, 2, 3 ]
+                    }
+                },
+                {
+                    extend: 'csvHtml5',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                    }
+                },
+                {
+                    extend: 'pdfHtml5',
+                    exportOptions: {
+                    columns: [ 0, 1, 2, 3 ]
+                    }
+                }
+            ],
             processing: true,
             serverSide: true,
             ajax: {
