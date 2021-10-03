@@ -6,6 +6,7 @@ use App\Http\Requests\KasMasukRequest;
 use App\Models\Cash;
 use App\Models\Type;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 
 class KasMasukController extends Controller
@@ -25,6 +26,9 @@ class KasMasukController extends Controller
                     <a href="#" class="btn btn-primary">Edit</a>
                         <button type="button" class="btn btn-danger">Hapus</button
                         ';
+                })
+                ->editColumn('date', function ($item) {
+                    return $item->date ? with(new Carbon($item->date))->isoFormat('D MMMM Y') : '';
                 })
                 ->addIndexColumn()
                 ->rawColumns(['action'])

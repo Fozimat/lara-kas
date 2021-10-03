@@ -46,11 +46,12 @@
 </div>
 @endsection
 @push('after-script')
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.8.4/moment.min.js"></script>
+<script src="https://cdn.datatables.net/plug-ins/1.11.3/sorting/datetime-moment.js"></script>
 <script>
     $(document).ready(function() {
-        
+        $.fn.dataTable.moment('D MMMM Y');
         var numberRenderer = $.fn.dataTable.render.number( ',', '.', 2  ).display;
-
            $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -90,8 +91,8 @@
             },
             columns: [
                 { data: 'DT_RowIndex', name: 'id', width: '5%' },
-                { data: 'description', name: 'description', width: '40%'},
-                { data: 'date', name: 'date' },
+                { data: 'description', name: 'description', width: '30%'},
+                { data: 'date', name: 'date' , width: '30%'},
                 { data: 'total', name: 'total' ,
                     render: function ( data, type, row ) {
                         return 'Rp.'+ numberRenderer(data);
