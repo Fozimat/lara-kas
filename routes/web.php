@@ -20,4 +20,4 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
-Route::resource('/pemasukan', KasMasukController::class);
+Route::resource('/pemasukan', KasMasukController::class)->parameters(['pemasukan' => 'cash']);

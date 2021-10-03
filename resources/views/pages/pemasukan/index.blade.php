@@ -51,7 +51,7 @@
 <script>
     $(document).ready(function() {
         $.fn.dataTable.moment('D MMMM Y');
-        var numberRenderer = $.fn.dataTable.render.number( ',', '.', 2  ).display;
+        var numberRenderer = $.fn.dataTable.render.number( '.', ',', 2  ).display;
            $('#dataTable').DataTable({
             processing: true,
             serverSide: true,
@@ -92,7 +92,7 @@
             columns: [
                 { data: 'DT_RowIndex', name: 'id', width: '5%' },
                 { data: 'description', name: 'description', width: '30%'},
-                { data: 'date', name: 'date' , width: '30%'},
+                { data: 'date', name: 'date' , width: '20%'},
                 { data: 'total', name: 'total' ,
                     render: function ( data, type, row ) {
                         return 'Rp.'+ numberRenderer(data);
@@ -103,10 +103,19 @@
                     name: 'action',
                     orderable: false,
                     searcable: false,
-                    width: '15%'
+                    width: '17%'
                  }
             ],
            });
        });
+</script>
+<script>
+    function showConfirm() {
+        var x = confirm("Apakah anda yakin?");
+        if (x)
+            return true;
+        else
+            return false;
+       }
 </script>
 @endpush

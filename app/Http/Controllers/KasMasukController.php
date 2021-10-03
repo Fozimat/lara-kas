@@ -23,8 +23,11 @@ class KasMasukController extends Controller
             return DataTables::of($data)
                 ->addColumn('action', function ($action) {
                     return '
-                    <a href="#" class="btn btn-primary">Edit</a>
-                        <button type="button" class="btn btn-danger">Hapus</button
+                    <a href="' . route('pemasukan.edit', $action->id) . '" class="btn btn-primary pull-left" style="margin-right:10px">Edit</a>
+                    <form action="' . route('pemasukan.destroy', $action->id) . '" method="POST">
+                    ' . csrf_field() . method_field('DELETE') . '
+                        <button type="submit" onclick="return showConfirm()" class="btn btn-danger">Hapus</button
+                    </form>
                         ';
                 })
                 ->editColumn('date', function ($item) {
@@ -79,9 +82,9 @@ class KasMasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Cash $cash)
     {
-        //
+        return view('pages.pemasukan.edit', compact(['cash']));
     }
 
     /**
@@ -91,9 +94,10 @@ class KasMasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(KasMasukRequest $request, Cash $cash)
     {
-        //
+        $cash->update($request->all());
+        return redirect()->route('pemasukan.index')->with('status', 'Data berhasil diubah');
     }
 
     /**
@@ -102,8 +106,9 @@ class KasMasukController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Cash $cash)
     {
-        //
+        $cash->delete();
+        return redirect()->route('pemasukan.index')->with('status', 'Data berhasil dihapus');
     }
 }
