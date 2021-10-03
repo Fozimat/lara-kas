@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\KasMasukRequest;
+use App\Models\Cash;
+use App\Models\Type;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class KasMasukController extends Controller
 {
@@ -13,6 +17,20 @@ class KasMasukController extends Controller
      */
     public function index()
     {
+        if (request()->ajax()) {
+            $data = Cash::query();
+            return DataTables::of($data)
+                ->addColumn('action', function ($action) {
+                    return '
+                    <a href="#" class="btn btn-primary">Edit</a>
+                        <button type="button" class="btn btn-danger">Hapus</button
+                        ';
+                })
+                ->addIndexColumn()
+                ->rawColumns(['action'])
+                ->make('true');
+        }
+
         return view('pages.pemasukan.index');
     }
 
@@ -23,7 +41,8 @@ class KasMasukController extends Controller
      */
     public function create()
     {
-        //
+        $types = Type::all();
+        return view('pages.pemasukan.create', compact(['types']));
     }
 
     /**
@@ -32,9 +51,11 @@ class KasMasukController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(KasMasukRequest $request)
     {
-        //
+        $data = $request->all();
+        Cash::create($data);
+        return redirect()->route('pemasukan.index')->with('status', 'Data berhasil ditambahkan');
     }
 
     /**

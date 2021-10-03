@@ -7,6 +7,7 @@
     <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
     <title>@yield('title')</title>
     @include('layouts.style')
+    @stack('after-style')
 </head>
 
 <body class="theme-red">
@@ -76,6 +77,7 @@
     </section>
 
     @include('layouts.script')
+    @stack('after-script')
 
 </body>
 

@@ -18,3 +18,7 @@
 
 <!-- Demo Js -->
 <script src="{{ asset('assets/js/demo.js') }}"></script>
+
+{{-- DataTable Js --}}
+<script src="{{ asset('assets/plugins/jquery-datatable/jquery.dataTables.js') }}"></script>
+<script src="{{ asset('assets/plugins/jquery-datatable/skin/bootstrap/js/dataTables.bootstrap.min.js') }}"></script>
