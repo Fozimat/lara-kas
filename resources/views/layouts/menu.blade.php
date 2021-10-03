@@ -13,8 +13,8 @@
                 <span>Kas Masuk</span>
             </a>
         </li>
-        <li>
-            <a href="#">
+        <li class="{{ request()->is('pengeluaran*') ? 'active' : '' }}">
+            <a href="{{ route('pengeluaran.index') }}">
                 <i class="material-icons">layers</i>
                 <span>Kas Keluar</span>
             </a>

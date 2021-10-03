@@ -4,12 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\KasMasukRequest;
 use App\Models\Cash;
-use App\Models\Type;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Yajra\DataTables\DataTables;
 
-class KasMasukController extends Controller
+class KasKeluarController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,12 +18,12 @@ class KasMasukController extends Controller
     public function index()
     {
         if (request()->ajax()) {
-            $data = Cash::where('type_id', 1)->get();
+            $data = Cash::where('type_id', 2)->get();
             return DataTables::of($data)
                 ->addColumn('action', function ($action) {
                     return '
-                    <a href="' . route('pemasukan.edit', $action->id) . '" class="btn btn-primary pull-left" style="margin-right:10px">Edit</a>
-                    <form action="' . route('pemasukan.destroy', $action->id) . '" method="POST">
+                    <a href="' . route('pengeluaran.edit', $action->id) . '" class="btn btn-primary pull-left" style="margin-right:10px">Edit</a>
+                    <form action="' . route('pengeluaran.destroy', $action->id) . '" method="POST">
                     ' . csrf_field() . method_field('DELETE') . '
                         <button type="submit" onclick="return showConfirm()" class="btn btn-danger">Hapus</button
                     </form>
@@ -38,7 +37,7 @@ class KasMasukController extends Controller
                 ->make('true');
         }
 
-        return view('pages.pemasukan.index');
+        return view('pages.pengeluaran.index');
     }
 
     /**
@@ -48,7 +47,7 @@ class KasMasukController extends Controller
      */
     public function create()
     {
-        return view('pages.pemasukan.create');
+        return view('pages.pengeluaran.create');
     }
 
     /**
@@ -61,7 +60,7 @@ class KasMasukController extends Controller
     {
         $data = $request->all();
         Cash::create($data);
-        return redirect()->route('pemasukan.index')->with('status', 'Data berhasil ditambahkan');
+        return redirect()->route('pengeluaran.index')->with('status', 'Data berhasil ditambahkan');
     }
 
     /**
@@ -83,7 +82,7 @@ class KasMasukController extends Controller
      */
     public function edit(Cash $cash)
     {
-        return view('pages.pemasukan.edit', compact(['cash']));
+        return view('pages.pengeluaran.edit', compact(['cash']));
     }
 
     /**
@@ -96,7 +95,7 @@ class KasMasukController extends Controller
     public function update(KasMasukRequest $request, Cash $cash)
     {
         $cash->update($request->all());
-        return redirect()->route('pemasukan.index')->with('status', 'Data berhasil diubah');
+        return redirect()->route('pengeluaran.index')->with('status', 'Data berhasil diubah');
     }
 
     /**
@@ -108,6 +107,6 @@ class KasMasukController extends Controller
     public function destroy(Cash $cash)
     {
         $cash->delete();
-        return redirect()->route('pemasukan.index')->with('status', 'Data berhasil dihapus');
+        return redirect()->route('pengeluaran.index')->with('status', 'Data berhasil dihapus');
     }
 }

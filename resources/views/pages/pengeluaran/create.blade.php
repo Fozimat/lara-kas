@@ -1,5 +1,5 @@
 @extends('layouts.admin')
-@section('title', 'Pemasukan')
+@section('title', 'Pengeluaran')
 @section('content')
 <div class="block-header">
     <h2>TAMBAH KAS MASUK</h2>
@@ -9,11 +9,11 @@
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <a href="{{ route('pemasukan.index') }}" class="btn btn-info">Kembali</a>
+                <a href="{{ route('pengeluaran.index') }}" class="btn btn-info">Kembali</a>
             </div>
-            <form action="{{ route('pemasukan.store') }}" method="POST">
+            <form action="{{ route('pengeluaran.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="type_id" value="1">
+                <input type="hidden" name="type_id" value="2">
                 <div class="body">
                     <div class="row clearfix">
                         <div class="col-sm-12">

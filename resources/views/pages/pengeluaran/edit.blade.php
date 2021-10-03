@@ -1,19 +1,20 @@
 @extends('layouts.admin')
-@section('title', 'Pemasukan')
+@section('title', 'Edit Pengeluaran')
 @section('content')
 <div class="block-header">
-    <h2>TAMBAH KAS MASUK</h2>
+    <h2>EDIT KAS MASUK</h2>
 </div>
 <!-- Input -->
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <a href="{{ route('pemasukan.index') }}" class="btn btn-info">Kembali</a>
+                <a href="{{ route('pengeluaran.index') }}" class="btn btn-info">Kembali</a>
             </div>
-            <form action="{{ route('pemasukan.store') }}" method="POST">
+            <form action="{{ route('pengeluaran.update', $cash->id) }}" method="POST">
+                @method('PUT')
                 @csrf
-                <input type="hidden" name="type_id" value="1">
+                <input type="hidden" name="type_id" value="2">
                 <div class="body">
                     <div class="row clearfix">
                         <div class="col-sm-12">
@@ -21,7 +22,7 @@
                             <div class="form-group">
                                 <div class="form-line @error('description') focused error @enderror">
                                     <input type="text" class="form-control" name="description"
-                                        value="{{ old('description') }}" placeholder="Deskripsi" />
+                                        value="{{ $cash->description }}" placeholder="Deskripsi" />
                                 </div>
                                 @error('description')
                                 <div class="text-danger">
@@ -36,7 +37,7 @@
                             <label>Tanggal</label>
                             <div class="form-group">
                                 <div class="form-line @error('date') focused error @enderror">
-                                    <input type="date" class="form-control" name="date" value="{{ old('date') }}" />
+                                    <input type="date" class="form-control" name="date" value="{{ $cash->date }}" />
                                 </div>
                                 @error('date')
                                 <div class="text-danger">
@@ -50,7 +51,7 @@
                                 <label>Total</label>
                                 <div class="form-line @error('total') focused error @enderror">
                                     <input type="text" class="form-control" placeholder="Total" name="total"
-                                        value="{{ old('total') }}" />
+                                        value="{{ $cash->total }}" />
                                 </div>
                                 @error('total')
                                 <div class="text-danger">
