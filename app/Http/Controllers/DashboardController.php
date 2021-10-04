@@ -13,6 +13,7 @@ class DashboardController extends Controller
         $kas_keluar = Cash::where('type_id', 2)->sum('total');
         $kas = $kas_masuk - $kas_keluar;
         $total_data = Cash::count();
-        return view('pages.dashboard.index', compact(['kas_masuk', 'kas_keluar', 'kas', 'total_data']));
+        $kas_terbaru = Cash::with(['type'])->orderBy('date', 'ASC')->limit(5)->get();
+        return view('pages.dashboard.index', compact(['kas_masuk', 'kas_keluar', 'kas', 'total_data', 'kas_terbaru']));
     }
 }

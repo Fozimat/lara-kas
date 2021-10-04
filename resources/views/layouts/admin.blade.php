@@ -38,7 +38,7 @@
             <div class="navbar-header">
 
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand text-uppercase" href="index.html">Laravel Kas</a>
+                <a class="navbar-brand text-uppercase" href="index.html">LARA-KAS</a>
             </div>
 
         </div>

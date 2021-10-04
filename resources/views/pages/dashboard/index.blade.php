@@ -11,7 +11,6 @@
     }
 </style>
 @endpush
-<!-- Widgets -->
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-expand-effect">
@@ -62,5 +61,78 @@
         </div>
     </div>
 </div>
-<!-- #END# Widgets -->
+<div class="row clearfix">
+    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+        <div class="card">
+            <div class="header">
+                <h2>AKTIFITAS TERBARU</h2>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-hover dashboard-task-infos">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Deskripsi</th>
+                                <th>Status</th>
+                                <th>Total</th>
+                                <th>User</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kas_terbaru as $kas)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $kas->description }}</td>
+                                <td>{!! ($kas->type->id == 1 ? '<span class="label bg-pink">Kas Masuk</span>' : '<span
+                                        class="label bg-cyan">Kas Keluar</span>') !!}</td>
+                                <td>{{ $kas->getTotalRupiah() }}</td>
+                                <td>{{ $kas->getTanggalIndo() }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="card">
+            <div class="header">
+                <h2>STATUS KAS</h2>
+            </div>
+            <div class="body">
+                <canvas id="pie_chart" height="290"></canvas>
+            </div>
+        </div>
+    </div>
+</div>
 @endsection
+@push('after-script')
+
+<script src="{{ asset('assets/plugins/chartjs/Chart.bundle.js') }}"></script>
+<script>
+    var ctx = document.getElementById("pie_chart").getContext('2d');
+		var myChart = new Chart(ctx, {
+			type: 'pie',
+			data: {
+                datasets: [{
+                    data: ['{{ $kas_masuk }}', '{{ $kas_keluar }}'],
+                    backgroundColor: [
+                        "rgb(233, 30, 99)",
+                        "rgb(0, 188, 212)",
+                    ],
+                }],
+                labels: [
+                    "Kas Masuk",
+                    "Kas Keluar"
+                ]
+            },
+            options: {
+                responsive: true,
+                legend: false
+            }
+		});
+</script>
+@endpush
