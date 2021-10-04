@@ -62,7 +62,44 @@
     </div>
 </div>
 <div class="row clearfix">
-    <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>LINE CHART</h2>
+            </div>
+            <div class="body">
+                <canvas id="line_chart" height="100"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>DONUT CHART</h2>
+                <ul class="header-dropdown m-r--5">
+                    <li class="dropdown">
+                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
+                            aria-haspopup="true" aria-expanded="false">
+                            <i class="material-icons">more_vert</i>
+                        </a>
+                        <ul class="dropdown-menu pull-right">
+                            <li><a href="javascript:void(0);">Action</a></li>
+                            <li><a href="javascript:void(0);">Another action</a></li>
+                            <li><a href="javascript:void(0);">Something else here</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+            <div class="body">
+                <div id="donut_chart" class="graph"></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
                 <h2>AKTIFITAS TERBARU</h2>
@@ -96,92 +133,57 @@
             </div>
         </div>
     </div>
-
-    <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
-        <div class="card">
-            <div class="header">
-                <h2>STATUS KAS</h2>
-            </div>
-            <div class="body">
-                <canvas id="pie_chart" height="290"></canvas>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="row clearfix">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-            <div class="header">
-                <h2>LINE CHART</h2>
-            </div>
-            <div class="body">
-                <canvas id="line_chart" height="100"></canvas>
-            </div>
-        </div>
-    </div>
 </div>
 @endsection
 @push('after-script')
-<script src="{{ asset('assets/plugins/chartjs/Chart.bundle.js') }}"></script>
+<link rel="stylesheet" href="{{ asset('assets/plugins/morrisjs/morris.css') }}">
+<script src="{{ asset('assets/plugins/raphael/raphael.js') }}"></script>
+<script src="{{ asset('assets/plugins/morrisjs/morris.js') }}"></script>
 <script>
-    var ctx = document.getElementById("pie_chart").getContext('2d');
-		var myChart = new Chart(ctx, {
-			type: 'pie',
-			data: {
-                datasets: [{
-                    data: ['{{ $kas_masuk }}', '{{ $kas_keluar }}'],
-                    backgroundColor: [
-                        "rgb(233, 30, 99)",
-                        "rgb(0, 188, 212)",
-                    ],
-                }],
-                labels: [
-                    "Kas Masuk",
-                    "Kas Keluar"
-                ]
-            },
-            options: {
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                              
-                            }
-                        }
-                    }
-                }
-            }
-		});
+    $(function () {
+    // getMorris('line', 'line_chart');
+    // getMorris('bar', 'bar_chart');
+    // getMorris('area', 'area_chart');
+    getMorris('donut', 'donut_chart');
+    $('#donut_chart').css("height", 365);
+});
 
-        var line = document.getElementById("line_chart").getContext('2d');
-		var myChart = new Chart(line, {
-			type: 'line',
-            data: {
-                labels: ["January", "February", "March", "April", "May", "June", "July"],
-                datasets: [{
-                    label: "My First dataset",
-                    data: [65, 59, 80, 81, 56, 55, 40],
-                    borderColor: 'rgba(0, 188, 212, 0.75)',
-                    backgroundColor: 'rgba(0, 188, 212, 0.3)',
-                    pointBorderColor: 'rgba(0, 188, 212, 0)',
-                    pointBackgroundColor: 'rgba(0, 188, 212, 0.9)',
-                    pointBorderWidth: 1
-                }, {
-                        label: "My Second dataset",
-                        data: [28, 48, 40, 19, 86, 27, 90],
-                        borderColor: 'rgba(233, 30, 99, 0.75)',
-                        backgroundColor: 'rgba(233, 30, 99, 0.3)',
-                        pointBorderColor: 'rgba(233, 30, 99, 0)',
-                        pointBackgroundColor: 'rgba(233, 30, 99, 0.9)',
-                        pointBorderWidth: 1
-                    }]
-            },
-            options: {
-                responsive: true,
-                legend: false
-            }
-		});
+function number_format (number, decimals, dec_point, thousands_sep) {
+    // Strip all characters but numerical ones.
+    number = (number + '').replace(/[^0-9+\-Ee.]/g, '');
+    var n = !isFinite(+number) ? 0 : +number,
+        prec = !isFinite(+decimals) ? 0 : Math.abs(decimals),
+        sep = (typeof thousands_sep === 'undefined') ? ',' : thousands_sep,
+        dec = (typeof dec_point === 'undefined') ? '.' : dec_point,
+        s = '',
+        toFixedFix = function (n, prec) {
+            var k = Math.pow(10, prec);
+            return '' + Math.round(n * k) / k;
+        };
+    // Fix for IE parseFloat(0.55).toFixed(0) = 0;
+    s = (prec ? toFixedFix(n, prec) : '' + Math.round(n)).split('.');
+    if (s[0].length > 3) {
+        s[0] = s[0].replace(/\B(?=(?:\d{3})+(?!\d))/g, sep);
+    }
+    if ((s[1] || '').length < prec) {
+        s[1] = s[1] || '';
+        s[1] += new Array(prec - s[1].length + 1).join('0');
+    }
+    return s.join(dec);
+}
 
+
+function getMorris(type, element) {
+    if (type === 'donut') {
+        Morris.Donut({
+            element: element,
+            data: {!! $donut !!},
+            colors: ['rgb(233, 30, 99)', 'rgb(0, 188, 212)'],
+            formatter: function (y) {
+                return  'Rp. ' + number_format(y, 2 , ',','.');
+            }
+        });
+    }
+}
 </script>
 @endpush
