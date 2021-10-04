@@ -75,8 +75,8 @@
                                 <th>#</th>
                                 <th>Deskripsi</th>
                                 <th>Status</th>
+                                <th>Tanggal</th>
                                 <th>Total</th>
-                                <th>User</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -86,8 +86,8 @@
                                 <td>{{ $kas->description }}</td>
                                 <td>{!! ($kas->type->id == 1 ? '<span class="label bg-pink">Kas Masuk</span>' : '<span
                                         class="label bg-cyan">Kas Keluar</span>') !!}</td>
-                                <td>{{ $kas->getTotalRupiah() }}</td>
                                 <td>{{ $kas->getTanggalIndo() }}</td>
+                                <td>{{ $kas->getTotalRupiah() }}</td>
                             </tr>
                             @endforeach
                         </tbody>
