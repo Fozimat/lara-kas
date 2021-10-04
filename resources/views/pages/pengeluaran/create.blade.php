@@ -2,7 +2,7 @@
 @section('title', 'Pengeluaran')
 @section('content')
 <div class="block-header">
-    <h2>TAMBAH KAS MASUK</h2>
+    <h2>TAMBAH KAS KELUAR</h2>
 </div>
 <!-- Input -->
 <div class="row clearfix">

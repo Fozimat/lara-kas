@@ -2,7 +2,7 @@
 @section('title', 'Kas Keluar')
 @section('content')
 <div class="block-header">
-    <h2>KAS MASUK</h2>
+    <h2>KAS KELUAR</h2>
 </div>
 @if(session('status'))
 <div class="alert bg-green alert-dismissible" role="alert">

@@ -2,7 +2,7 @@
 @section('title', 'Edit Pengeluaran')
 @section('content')
 <div class="block-header">
-    <h2>EDIT KAS MASUK</h2>
+    <h2>EDIT KAS KELUAR</h2>
 </div>
 <!-- Input -->
 <div class="row clearfix">
