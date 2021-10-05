@@ -28,7 +28,7 @@
     <div class=" col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-cyan hover-expand-effect">
             <div class="icon">
-                <i class="material-icons">help</i>
+                <i class="material-icons">forum</i>
             </div>
             <div class="content">
                 <div class="text">KAS KELUAR</div>
@@ -40,7 +40,7 @@
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-light-green hover-expand-effect">
             <div class="icon">
-                <i class="material-icons">forum</i>
+                <i class="material-icons">bookmark</i>
             </div>
             <div class="content">
                 <div class="text">KAS TERSISA</div>
@@ -84,22 +84,29 @@
         </div>
     </div>
 </div>
-{{-- <div class="row clearfix">
+<div class="row clearfix">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-
+        <div class="card">
+            <div class="header">
+                <h2>KAS BULAN INI</h2>
+            </div>
+            <div class="body">
+                <div id="donut_chart_bulan_ini" class="graph"></div>
+            </div>
+        </div>
     </div>
 
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>DONUT CHART</h2>
+                <h2>KAS KESELURUHAN</h2>
             </div>
             <div class="body">
                 <div id="donut_chart" class="graph"></div>
             </div>
         </div>
     </div>
-</div> --}}
+</div>
 
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -146,7 +153,8 @@
     $(function () {
         getMorris('bar_masuk', 'bar_chart_masuk');
         getMorris('bar_keluar', 'bar_chart_keluar');
-        // getMorris('donut', 'donut_chart');
+        getMorris('donut_keseluruhan', 'donut_chart');
+        getMorris('donut_bulan_ini', 'donut_chart_bulan_ini');
         $('#donut_chart').css("height", 365);
     });
 
@@ -176,7 +184,7 @@ function number_format (number, decimals, dec_point, thousands_sep) {
 
 
 function getMorris(type, element) {
-    if (type === 'donut') {
+    if (type === 'donut_keseluruhan') {
         Morris.Donut({
             element: element,
             data: {!! $donut !!},
@@ -202,6 +210,15 @@ function getMorris(type, element) {
             ykeys: ['total'],
             labels: ['Total'],
             barColors: ['rgb(0, 188, 212)'],
+        });
+    } else if(type === 'donut_bulan_ini') {
+        Morris.Donut({
+            element: element,
+            data: {!! $kas_bulan_ini !!},
+            colors: ['rgb(233, 30, 99)', 'rgb(0, 188, 212)'],
+            formatter: function (y) {
+                return  'Rp. ' + number_format(y, 2 , ',','.');
+            }
         });
     }
 }
