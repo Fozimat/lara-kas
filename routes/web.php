@@ -29,3 +29,7 @@ Route::get('/laporan/cetak_keseluruhan', [LaporanController::class, 'cetak_kesel
 Route::get('/laporan/cetak_cash_masuk', [LaporanController::class, 'cetak_cash_masuk'])->name('cetak_cash_masuk');
 Route::get('/laporan/cetak_cash_keluar', [LaporanController::class, 'cetak_cash_keluar'])->name('cetak_cash_keluar');
 Route::post('/laporan/cetak_periode', [LaporanController::class, 'cetak_periode'])->name('cetak_periode');
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
