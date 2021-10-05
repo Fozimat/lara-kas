@@ -27,8 +27,8 @@
                 <span>Rekapitulasi</span>
             </a>
         </li>
-        <li>
-            <a href="#">
+        <li class="{{ request()->is('laporan*') ? 'active' : '' }}">
+            <a href="{{ route('laporan') }}">
                 <i class="material-icons col-amber">donut_large</i>
                 <span>Cetak Laporan</span>
             </a>
