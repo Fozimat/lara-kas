@@ -62,6 +62,44 @@
         </div>
     </div>
 </div>
+
+<div class="row clearfix">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>AKTIFITAS TERBARU</h2>
+            </div>
+            <div class="body">
+                <div class="table-responsive">
+                    <table class="table table-hover dashboard-task-infos">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Deskripsi</th>
+                                <th>Status</th>
+                                <th>Tanggal</th>
+                                <th>Total</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($kas_terbaru as $kas)
+                            <tr>
+                                <td>{{ $loop->iteration }}</td>
+                                <td>{{ $kas->description }}</td>
+                                <td>{!! ($kas->type->id == 1 ? '<span class="label bg-pink">Kas Masuk</span>' : '<span
+                                        class="label bg-cyan">Kas Keluar</span>') !!}</td>
+                                <td>{{ $kas->getTanggalIndo() }}</td>
+                                <td>{{ $kas->getTotalRupiah() }}</td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <div class="row clearfix">
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="card">
@@ -108,42 +146,6 @@
     </div>
 </div>
 
-<div class="row clearfix">
-    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-        <div class="card">
-            <div class="header">
-                <h2>AKTIFITAS TERBARU</h2>
-            </div>
-            <div class="body">
-                <div class="table-responsive">
-                    <table class="table table-hover dashboard-task-infos">
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Deskripsi</th>
-                                <th>Status</th>
-                                <th>Tanggal</th>
-                                <th>Total</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach ($kas_terbaru as $kas)
-                            <tr>
-                                <td>{{ $loop->iteration }}</td>
-                                <td>{{ $kas->description }}</td>
-                                <td>{!! ($kas->type->id == 1 ? '<span class="label bg-pink">Kas Masuk</span>' : '<span
-                                        class="label bg-cyan">Kas Keluar</span>') !!}</td>
-                                <td>{{ $kas->getTanggalIndo() }}</td>
-                                <td>{{ $kas->getTotalRupiah() }}</td>
-                            </tr>
-                            @endforeach
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
 @endsection
 @push('after-script')
 <link rel="stylesheet" href="{{ asset('assets/plugins/morrisjs/morris.css') }}">
@@ -156,6 +158,7 @@
         getMorris('donut_keseluruhan', 'donut_chart');
         getMorris('donut_bulan_ini', 'donut_chart_bulan_ini');
         $('#donut_chart').css("height", 365);
+        $('#donut_chart_bulan_ini').css("height", 365);
     });
 
 function number_format (number, decimals, dec_point, thousands_sep) {
