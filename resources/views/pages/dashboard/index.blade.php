@@ -11,6 +11,7 @@
     }
 </style>
 @endpush
+
 <div class="row clearfix">
     <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
         <div class="info-box bg-pink hover-expand-effect">
@@ -65,38 +66,40 @@
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
-                <h2>LINE CHART</h2>
+                <h2>KAS MASUK/BULAN</h2>
             </div>
             <div class="body">
-                <canvas id="line_chart" height="100"></canvas>
+                <div id="bar_chart_masuk" class="graph"></div>
             </div>
         </div>
+    </div>
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+        <div class="card">
+            <div class="header">
+                <h2>KAS KELUAR/BULAN</h2>
+            </div>
+            <div class="body">
+                <div id="bar_chart_keluar" class="graph"></div>
+            </div>
+        </div>
+    </div>
+</div>
+{{-- <div class="row clearfix">
+    <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
     </div>
 
     <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
         <div class="card">
             <div class="header">
                 <h2>DONUT CHART</h2>
-                <ul class="header-dropdown m-r--5">
-                    <li class="dropdown">
-                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button"
-                            aria-haspopup="true" aria-expanded="false">
-                            <i class="material-icons">more_vert</i>
-                        </a>
-                        <ul class="dropdown-menu pull-right">
-                            <li><a href="javascript:void(0);">Action</a></li>
-                            <li><a href="javascript:void(0);">Another action</a></li>
-                            <li><a href="javascript:void(0);">Something else here</a></li>
-                        </ul>
-                    </li>
-                </ul>
             </div>
             <div class="body">
                 <div id="donut_chart" class="graph"></div>
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="row clearfix">
     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
@@ -141,12 +144,11 @@
 <script src="{{ asset('assets/plugins/morrisjs/morris.js') }}"></script>
 <script>
     $(function () {
-    // getMorris('line', 'line_chart');
-    // getMorris('bar', 'bar_chart');
-    // getMorris('area', 'area_chart');
-    getMorris('donut', 'donut_chart');
-    $('#donut_chart').css("height", 365);
-});
+        getMorris('bar_masuk', 'bar_chart_masuk');
+        getMorris('bar_keluar', 'bar_chart_keluar');
+        // getMorris('donut', 'donut_chart');
+        $('#donut_chart').css("height", 365);
+    });
 
 function number_format (number, decimals, dec_point, thousands_sep) {
     // Strip all characters but numerical ones.
@@ -182,6 +184,24 @@ function getMorris(type, element) {
             formatter: function (y) {
                 return  'Rp. ' + number_format(y, 2 , ',','.');
             }
+        });
+    } else if(type === 'bar_masuk') {
+        Morris.Bar({
+            element: element,
+            data: {!! $kas_masuk_per_bulan !!},
+            xkey: 'month',
+            ykeys: ['total'],
+            labels: ['Total'],
+            barColors: ['rgb(233, 30, 99)'],
+        });
+    } else if(type === 'bar_keluar') {
+        Morris.Bar({
+            element: element,
+            data: {!! $kas_keluar_per_bulan !!},
+            xkey: 'month',
+            ykeys: ['total'],
+            labels: ['Total'],
+            barColors: ['rgb(0, 188, 212)'],
         });
     }
 }

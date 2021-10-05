@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cash;
-use App\Models\Type;
 use Illuminate\Support\Facades\DB;
 
 class DashboardController extends Controller
@@ -21,9 +20,28 @@ class DashboardController extends Controller
             ->groupBy('type_id')
             ->get()->toJson();
 
-        $year = Cash::select('date as label', 'total as value')->get()->toJson(JSON_PRETTY_PRINT);
-        // dd($year);
+        $kas_masuk_per_bulan = Cash::select(
+            "types.type",
+            DB::raw("(sum(total)) as total"),
+            DB::raw("(DATE_FORMAT(date, '%m-%Y')) as month")
+        )
+            ->join('types', 'cashes.type_id', '=', 'types.id')
+            ->orderBy('date')
+            ->groupBy(DB::raw("DATE_FORMAT(date, '%m-%Y')"), DB::raw('type_id'))
+            ->where('cashes.type_id', '=', '1')
+            ->get()->toJson();
 
-        return view('pages.dashboard.index', compact(['kas_masuk', 'kas_keluar', 'kas', 'total_data', 'kas_terbaru', 'donut']));
+        $kas_keluar_per_bulan = Cash::select(
+            "types.type",
+            DB::raw("(sum(total)) as total"),
+            DB::raw("(DATE_FORMAT(date, '%m-%Y')) as month")
+        )
+            ->join('types', 'cashes.type_id', '=', 'types.id')
+            ->orderBy('date')
+            ->groupBy(DB::raw("DATE_FORMAT(date, '%m-%Y')"), DB::raw('type_id'))
+            ->where('cashes.type_id', '=', '2')
+            ->get()->toJson();
+
+        return view('pages.dashboard.index', compact(['kas_masuk', 'kas_keluar', 'kas', 'total_data', 'kas_terbaru', 'donut', 'kas_masuk_per_bulan', 'kas_keluar_per_bulan']));
     }
 }
