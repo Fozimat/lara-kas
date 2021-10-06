@@ -38,7 +38,7 @@
             <div class="navbar-header">
 
                 <a href="javascript:void(0);" class="bars"></a>
-                <a class="navbar-brand" href="index.html">PENGELOLAAN KAS</a>
+                <a class="navbar-brand" href="index.html">Pengelolaan-<b>KAS</b></a>
             </div>
 
         </div>
@@ -53,8 +53,9 @@
                     <img src="{{ asset('assets/images/user.png') }}" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Admin</div>
-                    <div class="email">admin@example.com</div>
+                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {{ Auth::user()->email }}</div>
+                    <div class="email">{{ Auth::user()->name }}</div>
 
                 </div>
             </div>
