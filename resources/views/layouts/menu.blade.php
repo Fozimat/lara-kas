@@ -1,7 +1,7 @@
 <div class="menu">
     <ul class="list">
         <li class="header">MAIN NAVIGATION</li>
-        <li class="{{ request()->is('dashboard') ? 'active' : '' }}">
+        <li class="{{ request()->is('dashboard') || request()->is('/') ? 'active' : '' }}">
             <a href="{{ route('dashboard') }}">
                 <i class="material-icons">home</i>
                 <span>Dashboard</span>
@@ -29,8 +29,8 @@
             </a>
         </li>
         <li class="header">SETTINGS</li>
-        <li>
-            <a href="#">
+        <li class="{{ request()->is('profile*') ? 'active' : '' }}">
+            <a href="{{ route('profile') }}">
                 <i class="material-icons">person</i>
                 <span>Profile</span>
             </a>

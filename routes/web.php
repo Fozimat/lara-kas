@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ChangePasswordController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LaporanController;
@@ -29,12 +30,11 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/laporan/cetak_cash_masuk', [LaporanController::class, 'cetak_cash_masuk'])->name('cetak_cash_masuk');
     Route::get('/laporan/cetak_cash_keluar', [LaporanController::class, 'cetak_cash_keluar'])->name('cetak_cash_keluar');
     Route::post('/laporan/cetak_periode', [LaporanController::class, 'cetak_periode'])->name('cetak_periode');
+    Route::get('/profile', [ChangePasswordController::class, 'index'])->name('profile');
+    Route::post('/change-password', [ChangePasswordController::class, 'changePassword'])->name('change-password');
+    Route::post('/change-name', [ChangePasswordController::class, 'changeName'])->name('change-name');
 });
-
-
 
 Auth::routes([
     'register' => false
 ]);
-
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
