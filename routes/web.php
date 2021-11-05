@@ -35,6 +35,4 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/change-name', [ChangePasswordController::class, 'changeName'])->name('change-name');
 });
 
-Auth::routes([
-    'register' => false
-]);
+Auth::routes();
