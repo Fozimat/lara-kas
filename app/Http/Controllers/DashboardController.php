@@ -18,7 +18,7 @@ class DashboardController extends Controller
 
         $donut = Cash::select(DB::raw("types.type as label, SUM(total) as value"))
             ->join('types', 'cashes.type_id', '=', 'types.id')
-            ->groupBy('type_id')
+            ->groupBy('type_id', 'types.type')
             ->get()->toJson();
 
         $month = Carbon::now()->month;
@@ -26,30 +26,18 @@ class DashboardController extends Controller
         $kas_bulan_ini = Cash::select(DB::raw("types.type as label, SUM(total) as value"))
             ->join('types', 'cashes.type_id', '=', 'types.id')
             ->whereMonth('date', '=', $month)
-            ->groupBy('type_id')
+            ->groupBy('type_id', 'types.type')
             ->get()->toJson();
 
-        $kas_masuk_per_bulan = Cash::select(
-            "types.type",
-            DB::raw("(sum(total)) as total"),
-            DB::raw("(DATE_FORMAT(date, '%m-%Y')) as month")
-        )
-            ->join('types', 'cashes.type_id', '=', 'types.id')
-            ->orderBy('date')
-            ->groupBy(DB::raw("DATE_FORMAT(date, '%m-%Y')"), DB::raw('type_id'))
-            ->where('cashes.type_id', '=', '1')
-            ->get()->toJson();
+        $kas_masuk_per_bulan = json_encode(DB::select("SELECT types.type, SUM(total) AS total, DATE_TRUNC('month',date)::date
+        AS month FROM cashes INNER JOIN types 
+        on cashes.type_id = types.id where cashes.type_id = 1 
+        GROUP BY DATE_TRUNC('month', date), types.type"));
 
-        $kas_keluar_per_bulan = Cash::select(
-            "types.type",
-            DB::raw("(sum(total)) as total"),
-            DB::raw("(DATE_FORMAT(date, '%m-%Y')) as month")
-        )
-            ->join('types', 'cashes.type_id', '=', 'types.id')
-            ->orderBy('date')
-            ->groupBy(DB::raw("DATE_FORMAT(date, '%m-%Y')"), DB::raw('type_id'))
-            ->where('cashes.type_id', '=', '2')
-            ->get()->toJson();
+        $kas_keluar_per_bulan = json_encode(DB::select("SELECT types.type, SUM(total) AS total, DATE_TRUNC('month',date)::date
+        AS month FROM cashes INNER JOIN types 
+        on cashes.type_id = types.id where cashes.type_id = 2 
+        GROUP BY DATE_TRUNC('month', date), types.type"));
 
         return view('pages.dashboard.index', compact(['kas_masuk', 'kas_keluar', 'kas', 'total_data', 'kas_terbaru', 'donut', 'kas_masuk_per_bulan', 'kas_keluar_per_bulan', 'kas_bulan_ini']));
     }
